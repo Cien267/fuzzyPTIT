@@ -22,11 +22,14 @@ class FuzzyController extends Controller
         $gdpPerCapitaLabel = $this->getGDPPerCapitaLabel($gdp_per_capita);
         $unemploymentRateLabel = $this->getUnemploymentRateLabel($unemployment_rate);
 
-        $resultLabel = $this->evaluatingEconomicLevel($populationLabel, $gdpLabel, $gdpPerCapitaLabel, $unemploymentRateLabel);
+        $resultLabel = $this->evaluatingEconomicLevel($populationLabel[0], $gdpLabel[0], $gdpPerCapitaLabel[0], $unemploymentRateLabel[0]);
+        $resultValue = min($populationLabel[1], $gdpLabel[1], $gdpPerCapitaLabel[1], $unemploymentRateLabel[1]);
 
+        $result = $this->getEconomicValue($resultValue, $resultLabel);
         return response()->json([
             'status' => "success",
-            "data" => $resultLabel
+            "economy_label" => $resultLabel,
+            "value" => $result
         ]);
     }
 
@@ -49,13 +52,13 @@ class FuzzyController extends Controller
             return "LP";
         }
 
-        $result = max($SPValue, max($MPValue, $LPValue));
+        $result = max($SPValue, $MPValue, $LPValue);
         if ($result == $SPValue) {
-            return "SP";
+            return ["SP", $result];
         } else if ($result == $MPValue) {
-            return "MP";
+            return ["MP", $result];
         } else {
-            return "LP";
+            return ["LP", $result];
         }
     }
 
@@ -110,17 +113,17 @@ class FuzzyController extends Controller
             $VHValue = 1;
         }
 
-        $result = max($VLValue,max($LOValue, max($MEValue, max($HIValue, $VHValue))));
+        $result = max($VLValue, $LOValue, $MEValue, $HIValue, $VHValue);
         if ($result == $VLValue) {
-            return "VL";
+            return ["VL", $result];
         } else if ($result == $LOValue) {
-            return "LO";
+            return ["LO", $result];
         } else if ($result == $MEValue) {
-            return "ME";
+            return ["ME", $result];
         } else if ($result == $HIValue) {
-            return "HI";
+            return ["HI", $result];
         } else {
-            return "VH";
+            return ["VH", $result];
         }
     }
 
@@ -151,13 +154,13 @@ class FuzzyController extends Controller
             $HPCValue = 1;
         }
 
-        $result = max($LPCValue,max($MPCValue, $HPCValue));
+        $result = max($LPCValue, $MPCValue, $HPCValue);
         if ($result == $LPCValue) {
-            return "LPC";
+            return ["LPC", $result];
         } else if ($result == $MPCValue) {
-            return "MPC";
+            return ["MPC", $result];
         } else {
-            return "HPC";
+            return ["HPC", $result];
         }
     }
 
@@ -188,16 +191,30 @@ class FuzzyController extends Controller
             $HURValue = 1;
         }
 
-        $result = max($LURValue,max($MURValue, $HURValue));
+        $result = max($LURValue, $MURValue, $HURValue);
         if ($result == $LURValue) {
-            return "LUR";
+            return ["LUR", $result];
         } else if ($result == $MURValue) {
-            return "MUR";
+            return ["MUR", $result];
         } else {
-            return "HUR";
+            return ["HUR", $result];
         }
     }
 
+    public function getEconomicValue($resultValue, $resultLabel) {
+        if ($resultLabel === "LOW") {
+            return 10 - $resultValue * 10;
+        }
+
+        if ($resultLabel === "MEDIUM") {
+            return (($resultValue * 5) + (10 - $resultValue * 5)) / 2;
+        }
+
+        if ($resultLabel === "HIGHT") {
+            return $resultValue * 10;
+        }
+
+    }
     public function evaluatingEconomicLevel ($population, $gdp, $gdpPerCapita, $unemploymentRate) {
 
         // LOW
