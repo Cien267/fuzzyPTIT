@@ -17,19 +17,23 @@ class FuzzyController extends Controller
         $gdp_per_capita = $data['gdp_per_capita'] ?? "";
         $unemployment_rate = $data['unemployment_rate'] ?? "";
 
-        $populationLabel = $this->getPopulationLabel($population);
-        $gdpLabel = $this->getGDPLabel($gdp);
-        $gdpPerCapitaLabel = $this->getGDPPerCapitaLabel($gdp_per_capita);
-        $unemploymentRateLabel = $this->getUnemploymentRateLabel($unemployment_rate);
+        // lấy thông tin nhãn và giá trị miu của từng chỉ số
+        $populationInfo = $this->getPopulationLabel($population);
+        $gdpInfo = $this->getGDPLabel($gdp);
+        $gdpPerCapitaInfo = $this->getGDPPerCapitaLabel($gdp_per_capita);
+        $unemploymentRateInfo = $this->getUnemploymentRateLabel($unemployment_rate);
 
-        $resultLabel = $this->evaluatingEconomicLevel($populationLabel[0], $gdpLabel[0], $gdpPerCapitaLabel[0], $unemploymentRateLabel[0]);
-        $resultValue = min($populationLabel[1], $gdpLabel[1], $gdpPerCapitaLabel[1], $unemploymentRateLabel[1]);
+        $economicLabel = $this->evaluatingEconomicLevel($populationInfo["label"], $gdpInfo["label"], $gdpPerCapitaInfo["label"], $unemploymentRateInfo["label"]);
+        $resultValue = min($populationInfo["value"], $gdpInfo["value"], $gdpPerCapitaInfo["value"], $unemploymentRateInfo["value"]);
 
-        $result = $this->getEconomicValue($resultValue, $resultLabel);
+        $economicValue = $this->getEconomicValue($resultValue, $economicLabel);
         return response()->json([
             'status' => "success",
-            "economy_label" => $resultLabel,
-            "value" => $result
+            "economy" => ["label" => $economicLabel, "value" => $economicValue],
+            "population" => $populationInfo,
+            "gdp" => $gdpInfo,
+            "gdp_per_capita" => $gdpPerCapitaInfo,
+            "unemployment_rate" => $unemploymentRateInfo,
         ]);
     }
 
@@ -54,11 +58,11 @@ class FuzzyController extends Controller
 
         $result = max($SPValue, $MPValue, $LPValue);
         if ($result == $SPValue) {
-            return ["SP", $result];
+            return ["label" => "SP", "value" => $result];
         } else if ($result == $MPValue) {
-            return ["MP", $result];
+            return ["label" => "MP", "value" => $result];
         } else {
-            return ["LP", $result];
+            return ["label" => "LP", "value" => $result];
         }
     }
 
@@ -115,15 +119,15 @@ class FuzzyController extends Controller
 
         $result = max($VLValue, $LOValue, $MEValue, $HIValue, $VHValue);
         if ($result == $VLValue) {
-            return ["VL", $result];
+            return ["label" => "VL", "value" => $result];
         } else if ($result == $LOValue) {
-            return ["LO", $result];
+            return ["label" => "LO", "value" => $result];
         } else if ($result == $MEValue) {
-            return ["ME", $result];
+            return ["label" => "ME", "value" => $result];
         } else if ($result == $HIValue) {
-            return ["HI", $result];
+            return ["label" => "HI", "value" => $result];
         } else {
-            return ["VH", $result];
+            return ["label" => "VH", "value" => $result];
         }
     }
 
@@ -156,11 +160,11 @@ class FuzzyController extends Controller
 
         $result = max($LPCValue, $MPCValue, $HPCValue);
         if ($result == $LPCValue) {
-            return ["LPC", $result];
+            return ["label" => "LPC", "value" => $result];
         } else if ($result == $MPCValue) {
-            return ["MPC", $result];
+            return ["label" => "MPC", "value" => $result];
         } else {
-            return ["HPC", $result];
+            return ["label" => "HPC", "value" => $result];
         }
     }
 
@@ -193,11 +197,11 @@ class FuzzyController extends Controller
 
         $result = max($LURValue, $MURValue, $HURValue);
         if ($result == $LURValue) {
-            return ["LUR", $result];
+            return ["label" => "LUR", "value" => $result];
         } else if ($result == $MURValue) {
-            return ["MUR", $result];
+            return ["label" => "MUR", "value" => $result];
         } else {
-            return ["HUR", $result];
+            return ["label" => "HUR", "value" => $result];
         }
     }
 
