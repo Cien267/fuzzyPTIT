@@ -39,7 +39,7 @@ class FuzzyController extends Controller
 
     public function getPopulationLabel($x) {
         if ($x <= 0) {
-            return "SP";
+            return ["label" => "SP", "value" => 1];
         } else if ($x <= 20) {
             $SPValue = (50 - $x)/50;
             $MPValue = $x/20;
@@ -53,7 +53,7 @@ class FuzzyController extends Controller
             $MPValue = (50 - $x)/20;
             $LPValue = $x/50;
         } else {
-            return "LP";
+            return ["label" => "LP", "value" => 1];
         }
 
         $result = max($SPValue, $MPValue, $LPValue);
