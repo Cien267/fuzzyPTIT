@@ -12,21 +12,23 @@ class FuzzyController extends Controller
     public function fuzzyHandle(Request $request) {
         $data = $request->all();
 
+        // lấy thông tin đầu vào người dùng nhập
         $population = $data['population'] ?? 0;
         $gdp = $data['gdp'] ?? 0;
         $gdp_per_capita = $data['gdp_per_capita'] ?? 0;
         $unemployment_rate = $data['unemployment_rate'] ?? 0;
 
-        // lấy thông tin nhãn và giá trị miu của từng chỉ số
+        // tính toán lấy nhãn và giá trị miu của từng chỉ số nhập vào
         $populationInfo = $this->getPopulationLabel($population);
         $gdpInfo = $this->getGDPLabel($gdp);
         $gdpPerCapitaInfo = $this->getGDPPerCapitaLabel($gdp_per_capita);
         $unemploymentRateInfo = $this->getUnemploymentRateLabel($unemployment_rate);
 
+        // tính toán lấy nhãn của kinh tế và đánh giá sự phát triển của nền kinh tế trên thang điểm 10
         $economicLabel = $this->evaluatingEconomicLevel($populationInfo["label"], $gdpInfo["label"], $gdpPerCapitaInfo["label"], $unemploymentRateInfo["label"]);
         $resultValue = min($populationInfo["value"], $gdpInfo["value"], $gdpPerCapitaInfo["value"], $unemploymentRateInfo["value"]);
-
         $economicValue = $this->getEconomicValue($resultValue, $economicLabel);
+
         return response()->json([
             'status' => "success",
             "economy" => ["label" => $economicLabel, "value" => $economicValue],
@@ -37,6 +39,8 @@ class FuzzyController extends Controller
         ]);
     }
 
+
+    // hàm tính toán lấy nhãn và giá trị miu của chỉ số dân số
     public function getPopulationLabel($x) {
         if ($x <= 0) {
             return ["label" => "SP", "value" => 1];
@@ -66,6 +70,7 @@ class FuzzyController extends Controller
         }
     }
 
+    // hàm tính toán lấy nhãn và giá trị miu của chỉ số GDP
     public function getGDPLabel($x) {
         if ($x <= 50000) {
             $VLValue = 1;
@@ -131,6 +136,7 @@ class FuzzyController extends Controller
         }
     }
 
+    // hàm tính toán lấy nhãn và giá trị miu của chỉ số GDP bình quân đầu người
     public function getGDPPerCapitaLabel($x) {
         if ($x <= 0) {
             $LPCValue = 1;
@@ -168,6 +174,7 @@ class FuzzyController extends Controller
         }
     }
 
+    // hàm tính toán lấy nhãn và giá trị miu của chỉ số tỉ lệ thất nghiệp
     public function getUnemploymentRateLabel($x) {
         if ($x <= 0) {
             $LURValue = 1;
@@ -205,6 +212,7 @@ class FuzzyController extends Controller
         }
     }
 
+    // hàm đánh giá sự phát triển của nền kinh tế trên thang điểm 10
     public function getEconomicValue($resultValue, $resultLabel) {
         if ($resultLabel === "LOW") {
             return 10 - $resultValue * 10;
@@ -217,8 +225,9 @@ class FuzzyController extends Controller
         if ($resultLabel === "HIGHT") {
             return $resultValue * 10;
         }
-
     }
+
+    // hàm tính toán lấy nhãn của nền kinh tế
     public function evaluatingEconomicLevel ($population, $gdp, $gdpPerCapita, $unemploymentRate) {
 
         // LOW
