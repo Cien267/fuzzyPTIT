@@ -35,10 +35,10 @@ class FuzzyCommon {
       ["SP"], ["VL", "LO", "ME"], ["MPC"], ["HUR"]
   ],
   [
-      ["SP"], ["HI", "VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
+      ["SP"], ["VL", "LO"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
-      ["MP"], ["VL"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES// triplicated
+      ["MP"], ["VL"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES
   ],
   [
       ["MP"], ["LO", "ME", "HI"], ["LPC"], self::UNEMPLOYMENT_RATE_VARIABLES
@@ -47,10 +47,7 @@ class FuzzyCommon {
       ["MP"], ["LO", "ME", "HI"], ["MPC"], ["HUR"]
   ],
   [
-      ["MP"], ["VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
-  ],
-  [
-      ["LP"], ["VL", "LO"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
+      ["MP"], ["VL", "LO"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
       ["LP"], ["ME", "HI", "VH"], ["LPC"], self::UNEMPLOYMENT_RATE_VARIABLES
@@ -67,10 +64,7 @@ public const MEDIUM_ECONOMY = [
           ["SP"], ["VL", "LO", "ME"], ["HPC"], ["HUR"]
   ],
   [
-          ["SP"], ["HI", "VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
-  ],
-  [
-          ["MP"], ["VL"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES  // triplicated
+          ["SP", "MP"], ["ME"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
           ["MP"], ["LO", "ME", "HI"], ["MPC"], ["LUR"]
@@ -82,10 +76,10 @@ public const MEDIUM_ECONOMY = [
           ["MP"], ["LO", "ME", "HI"], ["HPC"], ["HUR"]
   ],
   [
-          ["MP"], ["VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
+          ["MP"], ["ME"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
-          ["LP"], ["VL", "LO"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
+          ["LP"], ["VL", "LO"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
           ["LP"], ["ME", "HI", "VH"], ["MPC"], ["LUR"]
@@ -102,10 +96,10 @@ public const HIGH_ECONOMY = [
           ["SP"], ["VL", "LO", "ME"], ["HPC"], ["LUR", "MUR"]
   ],
   [
-          ["SP"], ["HI", "VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
+          ["SP"], ["HI", "VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
-          ["MP"], ["VL"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES // triplicated
+          ["MP"], ["HI", "VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
           ["MP"], ["LO", "ME", "HI"], ["HPC"], ["LUR"]
@@ -114,10 +108,10 @@ public const HIGH_ECONOMY = [
           ["MP"], ["LO", "ME", "HI"], ["HPC"], ["MUR"]
   ],
   [
-          ["MP"], ["VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES  // triplicated
+          ["MP"], ["VH"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES 
   ],
   [
-          ["LP"], ["VL", "LO"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES  // triplicated
+          ["LP"], ["HI"], self::GDP_PER_CAPITA_VARIABLES, self::UNEMPLOYMENT_RATE_VARIABLES  
   ],
   [
           ["LP"], ["ME", "HI", "VH"], ["HPC"], ["LUR"]

@@ -12,10 +12,10 @@ class FuzzyController extends Controller
     public function fuzzyHandle(Request $request) {
         $data = $request->all();
 
-        $population = $data['population'] ?? "";
-        $gdp = $data['gdp'] ?? "";
-        $gdp_per_capita = $data['gdp_per_capita'] ?? "";
-        $unemployment_rate = $data['unemployment_rate'] ?? "";
+        $population = $data['population'] ?? 0;
+        $gdp = $data['gdp'] ?? 0;
+        $gdp_per_capita = $data['gdp_per_capita'] ?? 0;
+        $unemployment_rate = $data['unemployment_rate'] ?? 0;
 
         // lấy thông tin nhãn và giá trị miu của từng chỉ số
         $populationInfo = $this->getPopulationLabel($population);
